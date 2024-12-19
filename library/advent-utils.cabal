@@ -6,7 +6,7 @@ synopsis:           Utilities related to solving Advent of Code puzzles
 homepage:           https://github.com/tobeannouncd/aoc-hs-cabal
 license:            BSD-3-Clause
 license-file:       LICENSE
-author:             tobeannouncd
+author:             Tyler Aas
 maintainer:         tobeannouncd@gmail.com
 copyright:          2024 Tyler Aas
 build-type:         Simple
