@@ -3,7 +3,7 @@ name:               advent-utils
 version:            0.1.0.0
 synopsis:           Utilities related to solving Advent of Code puzzles
 -- description:
-homepage:           https://github.com/tobeannouncd/aoc-hs
+homepage:           https://github.com/tobeannouncd/aoc-hs-cabal
 license:            BSD-3-Clause
 license-file:       LICENSE
 author:             tobeannouncd
