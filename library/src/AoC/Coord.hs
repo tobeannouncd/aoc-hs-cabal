@@ -15,6 +15,7 @@ module AoC.Coord (
   right,
   clockwise,
   counterclockwise,
+  turnLeft, turnRight,
   manhattan,
   norm1,
   neighbors,
@@ -101,6 +102,12 @@ clockwise (C y x) = C x (-y)
 
 counterclockwise :: Coord -> Coord
 counterclockwise (C y x) = C (-x) y
+
+turnLeft :: Coord -> Coord
+turnLeft = counterclockwise
+
+turnRight :: Coord -> Coord
+turnRight = clockwise
 
 manhattan :: Coord -> Coord -> Int
 manhattan a b = norm1 (a - b)
