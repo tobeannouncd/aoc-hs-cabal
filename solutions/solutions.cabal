@@ -1,0 +1,157 @@
+cabal-version:      3.4
+name:               solutions
+version:            0.1.0.0
+synopsis:           Solutions to Advent of Code puzzles
+-- description:
+homepage:           https://github.com/tobeannouncd/aoc-hs
+license:            BSD-3-Clause
+license-file:       LICENSE
+author:             tobeannouncd
+maintainer:         tobeannouncd@gmail.com
+-- copyright:
+build-type:         Simple
+extra-doc-files:    CHANGELOG.md
+-- extra-source-files:
+
+common day
+  hs-source-dirs:   src
+  build-depends:
+    advent-utils,
+    base ^>= 4.19.1.0
+  ghc-options:
+    -Wall
+    -Wcompat
+    -Wno-x-partial
+  default-language: GHC2021
+  default-extensions:
+    LambdaCase
+    BlockArguments
+
+
+-- 2024 --------------------------------------------------
+
+executable y2024_01
+  import:           day
+  main-is:          2024/01.hs
+
+executable y2024_02
+  import:           day
+  main-is:          2024/02.hs
+
+executable y2024_03
+  import:           day
+  main-is:          2024/03.hs
+
+executable y2024_04
+  import:           day
+  main-is:          2024/04.hs
+
+executable y2024_05
+  import:           day
+  main-is:          2024/05.hs
+
+executable y2024_06
+  import:           day
+  main-is:          2024/06.hs
+  build-depends:
+    containers,
+
+executable y2024_07
+  import:           day
+  main-is:          2024/07.hs
+  build-depends:
+    lens,
+
+executable y2024_08
+  import:           day
+  main-is:          2024/08.hs
+  build-depends:
+    containers,
+
+executable y2024_09
+  import:           day
+  main-is:          2024/09.hs
+  build-depends:
+    array,
+    containers,
+
+executable y2024_10
+  import:           day
+  main-is:          2024/10.hs
+  build-depends:
+    containers,
+
+executable y2024_11
+  import:           day
+  main-is:          2024/11.hs
+  build-depends:
+    containers,
+
+executable y2024_12
+  import:           day
+  main-is:          2024/12.hs
+  build-depends:
+    containers,
+
+executable y2024_13
+  import:           day
+  main-is:          2024/13.hs
+  build-depends:
+    linear,
+
+executable y2024_14
+  import:           day
+  main-is:          2024/14.hs
+  build-depends:
+    arithmoi,
+
+executable y2024_15
+  import:           day
+  main-is:          2024/15.hs
+  build-depends:
+    containers,
+    split,
+
+executable y2024_16
+  import:           day
+  main-is:          2024/16.hs
+  build-depends:
+    containers,
+
+executable y2024_17
+  import:           day
+  main-is:          2024/17.hs
+
+executable y2024_18
+  import:           day
+  main-is:          2024/18.hs
+  build-depends:
+    containers,
+
+executable y2024_19
+  import:           day
+  main-is:          2024/19.hs
+
+executable y2024_20
+  import:           day
+  main-is:          2024/20.hs
+
+executable y2024_21
+  import:           day
+  main-is:          2024/21.hs
+
+executable y2024_22
+  import:           day
+  main-is:          2024/22.hs
+
+executable y2024_23
+  import:           day
+  main-is:          2024/23.hs
+
+executable y2024_24
+  import:           day
+  main-is:          2024/24.hs
+
+executable y2024_25
+  import:           day
+  main-is:          2024/25.hs

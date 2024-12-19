@@ -1,0 +1,41 @@
+cabal-version:      3.4
+name:               advent-utils
+version:            0.1.0.0
+synopsis:           Utilities related to solving Advent of Code puzzles
+-- description:
+homepage:           https://github.com/tobeannouncd/aoc-hs
+license:            BSD-3-Clause
+license-file:       LICENSE
+author:             tobeannouncd
+maintainer:         tobeannouncd@gmail.com
+copyright:          2024 Tyler Aas
+build-type:         Simple
+extra-doc-files:    CHANGELOG.md
+-- extra-source-files:
+
+library
+  hs-source-dirs:   src
+  default-language: GHC2021
+  default-extensions:
+    LambdaCase
+    BlockArguments
+  ghc-options:
+    -Wall
+    -Wcompat
+  build-depends:
+    base ^>= 4.19.1.0,
+    advent-of-code-api ^>= 0.2.9.1,
+    text,
+    parsec,
+    containers,
+    linear,
+  exposed-modules:
+    AoC
+    AoC.Input
+    AoC.Prelude
+    AoC.Parsec
+    AoC.Coord
+    AoC.Search
+    AoC.Queue
+    AoC.PQueue
+  -- other-modules:

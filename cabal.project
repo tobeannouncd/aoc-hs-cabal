@@ -1,0 +1,3 @@
+packages:
+  library/advent-utils.cabal
+  solutions/solutions.cabal
