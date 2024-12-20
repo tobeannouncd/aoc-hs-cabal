@@ -131,6 +131,8 @@ executable y2024_18
 executable y2024_19
   import:           day
   main-is:          2024/19.hs
+  build-depends:
+    containers,
 
 executable y2024_20
   import:           day
