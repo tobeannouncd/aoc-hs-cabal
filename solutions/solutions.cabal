@@ -22,7 +22,6 @@ common day
     -Wall
     -Wcompat
     -Wno-x-partial
-    -Wno-unused-top-binds
   default-language: GHC2021
   default-extensions:
     LambdaCase
