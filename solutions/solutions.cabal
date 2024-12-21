@@ -22,6 +22,7 @@ common day
     -Wall
     -Wcompat
     -Wno-x-partial
+    -Wno-unused-top-binds
   default-language: GHC2021
   default-extensions:
     LambdaCase
@@ -137,6 +138,9 @@ executable y2024_19
 executable y2024_20
   import:           day
   main-is:          2024/20.hs
+  build-depends:
+    containers,
+    array
 
 executable y2024_21
   import:           day
