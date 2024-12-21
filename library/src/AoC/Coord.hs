@@ -35,6 +35,7 @@ import Data.List      (findIndex)
 import Data.Semigroup (Max (..), Min (..))
 import Data.Array.Unboxed (UArray, listArray)
 import Data.MonoTraversable
+import Data.MemoTrie (HasTrie(..))
 
 data Coord = C !Int !Int
   deriving (Show, Read, Eq, Ord)
@@ -61,6 +62,12 @@ yVal (C y _) = y
 
 xVal :: Coord -> Int
 xVal (C _ x) = x
+
+instance HasTrie Coord where
+  newtype Coord :->: a = CT (Int :->: Int :->: a)
+  trie f = CT (trie $ \y -> trie $ \x -> f (C y x))
+  CT t `untrie` C y x = t `untrie` y `untrie` x
+  enumerate (CT t) = [(C y x,a) | (y,xs) <- enumerate t, (x,a) <- enumerate xs]
 
 instance Num Coord where
   (+) = czipWith (+)

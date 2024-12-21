@@ -144,6 +144,10 @@ executable y2024_20
 executable y2024_21
   import:           day
   main-is:          2024/21.hs
+  build-depends:
+    containers,
+    split,
+    MemoTrie
 
 executable y2024_22
   import:           day

@@ -31,7 +31,8 @@ library
     parsec ^>= 3.1.17.0,
     containers ^>= 0.6.8,
     array ^>= 0.5.6.0,
-    mono-traversable ^>= 1.0.21.0
+    mono-traversable ^>= 1.0.21.0,
+    MemoTrie ^>= 0.6.11
   exposed-modules:
     AoC
     AoC.Input
