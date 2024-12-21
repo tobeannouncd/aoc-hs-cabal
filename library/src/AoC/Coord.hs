@@ -26,7 +26,7 @@ module AoC.Coord (
   south,
   east,
   from2dString,
-  charToVec,
+  charToVec, diamond,
 ) where
 
 import Data.Foldable  (toList)
@@ -158,4 +158,27 @@ from2dString str =
   [ (C y x, c)
   | (y, row) <- zip [0 ..] (lines str)
   , (x, c) <- zip [0 ..] row
+  ]
+
+-- | @diamond n pt@ returns a list of points that are a maximum manhattan
+--   distance of @n@ away from @pt@
+--
+--   Below is an illustration of the points in @diamond 3 pt@ where @pt@ is
+--   represented as an @O@ and the surrounding points are @X@
+--
+-- @
+--    X
+--   XXX
+--  XXXXX
+-- XXXOXXX
+--  XXXXX
+--   XXX
+--    X
+-- @
+diamond :: Int -> Coord -> [Coord]
+diamond n (C y x) =
+  [ C y' x'
+  | y' <- [y-n .. y+ n]
+  , let dy = abs (y - y')
+  , x' <- [x-n+dy .. x+n-dy]
   ]

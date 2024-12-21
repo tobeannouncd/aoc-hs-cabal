@@ -1,11 +1,12 @@
 module AoC.Prelude where
 import Data.Typeable ( Typeable, cast )
+import Data.Foldable (toList)
 
-countIf :: (a -> Bool) -> [a] -> Int
-countIf p = length . filter p
+countIf :: (Foldable t) => (a -> Bool) -> t a -> Int
+countIf p = length . filter p . toList
 
 
-count :: Eq a => a -> [a] -> Int
+count :: (Foldable t, Eq a) => a -> t a -> Int
 count = countIf . (==)
 
 eitherFail :: (MonadFail m, Typeable b, Show b) => Either b a -> m a
