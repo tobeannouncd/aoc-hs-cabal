@@ -1,3 +1,5 @@
+-- https://adventofcode.com/2024/day/1
+
 module Main where
 import AoC
 import Data.List (sort)

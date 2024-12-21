@@ -1,3 +1,5 @@
+-- https://adventofcode.com/2024/day/16
+
 {-# OPTIONS_GHC -Wno-incomplete-uni-patterns #-}
 module Main (main) where
 

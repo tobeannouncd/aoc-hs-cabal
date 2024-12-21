@@ -1,3 +1,5 @@
+-- https://adventofcode.com/2024/day/20
+
 {-# LANGUAGE ViewPatterns #-}
 module Main (main) where
 

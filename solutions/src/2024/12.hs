@@ -1,3 +1,5 @@
+-- https://adventofcode.com/2024/day/12
+
 module Main (main) where
 
 import qualified Data.Map as Map

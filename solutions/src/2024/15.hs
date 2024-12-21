@@ -1,3 +1,5 @@
+-- https://adventofcode.com/2024/day/15
+
 module Main (main) where
 
 import AoC

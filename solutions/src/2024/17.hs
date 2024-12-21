@@ -1,3 +1,5 @@
+-- https://adventofcode.com/2024/day/17
+
 module Main (main) where
 
 import AoC.Parsec hiding (State)
