@@ -28,7 +28,8 @@ library
     text,
     parsec,
     containers,
-    linear,
+    array,
+    mono-traversable
   exposed-modules:
     AoC
     AoC.Input

@@ -1,9 +1,6 @@
-{-# LANGUAGE DerivingVia #-}
-{-# LANGUAGE PatternSynonyms #-}
-
+{-# LANGUAGE TypeFamilies #-}
 module AoC.Coord (
-  pattern C,
-  Coord,
+  Coord(..),
   xVal,
   yVal,
   boundingBox,
@@ -26,51 +23,77 @@ module AoC.Coord (
   south,
   east,
   from2dString,
-  charToVec, diamond,
+  charToVec, diamond, strToArray,
 ) where
 
 import Data.Foldable  (toList)
-import Data.Ix        (Ix)
+import Data.Ix        (Ix(..))
 import Data.Map       (Map)
 import Data.Map.Strict qualified as Map
-import Data.Semigroup (Max (Max), Min (Min))
-import Linear.V2      (V2 (..))
-import Text.Read      (readPrec, Lexeme(Ident), parens, lift, prec, step)
-import Text.Read.Lex  (expect)
+import Data.Bifunctor (bimap)
+import Data.List      (findIndex)
+import Data.Semigroup (Max (..), Min (..))
+import Data.Array.Unboxed (UArray, listArray)
+import Data.MonoTraversable
 
+data Coord = C !Int !Int
+  deriving (Show, Read, Eq, Ord)
 
-newtype Coord' a = Coord' (V2 a)
-  deriving (Eq, Ord, Num, Ix, Foldable, Functor)
+type instance Element Coord = Int
 
-type Coord = Coord' Int
+instance MonoFunctor Coord where
+  omap f (C y x) = C (f y) (f x)
 
-instance Show Coord where
-  showsPrec p (C y x)
-    = showParen (p > 10)
-    $ showString "C "
-    . showsPrec 11 y
-    . showChar ' '
-    . showsPrec 11 x
+instance MonoFoldable Coord where
+  ofoldMap f (C y x) = f y <> f x
+  ofoldr f a (C y x) = y `f` (x `f` a)
+  ofoldr1Ex f (C y x) = y `f` x
+  ofoldl1Ex' f (C y x) = y `f` x
+  ofoldl' f a (C y x) =
+    let a' = f a y
+    in a' `seq` f a' x
 
-instance Read Coord where
-  readPrec = parens (prec 10 p)
-   where
-    p = do
-      lift $ expect (Ident "C")
-      y <- step readPrec
-      x <- step readPrec
-      return (C y x)
+instance MonoPointed Coord where
+  opoint x = C x x
 
-pattern C :: Int -> Int -> Coord
-pattern C{yVal, xVal} = Coord' (V2 yVal xVal)
+yVal :: Coord -> Int
+yVal (C y _) = y
 
-{-# COMPLETE C #-}
+xVal :: Coord -> Int
+xVal (C _ x) = x
 
-newtype Bounds = B {getBounds :: Maybe (Coord, Coord)}
-  deriving (Semigroup, Monoid) via Maybe (V2 (Min Int), V2 (Max Int))
+instance Num Coord where
+  (+) = czipWith (+)
+  (-) = czipWith (-)
+  (*) = czipWith (*)
+  abs = omap abs
+  signum = omap signum
+  negate = omap negate
+  fromInteger n =
+    let n' = fromInteger n
+    in C n' n'
+
+instance Ix Coord where
+  range (C y1 x1, C y2 x2) = [C y x | (y,x) <- range ((y1,x1),(y2,x2))]
+  index (C y1 x1, C y2 x2) (C y x) = index ((y1,x1),(y2,x2)) (y,x)
+  inRange (C y1 x1, C y2 x2) (C y x) = inRange ((y1,x1),(y2,x2)) (y,x)
+
+czipWith :: (Int -> Int -> Int) -> Coord -> Coord -> Coord
+czipWith f (C y1 x1) (C y2 x2) = C (f y1 y2) (f x1 x2)
+
+newtype Bounds = B (Maybe (Min Coord, Max Coord))
+
+instance Semigroup Bounds where
+  B a <> B b = B (a <> b)
+
+instance Monoid Bounds where
+  mempty = B Nothing
+
+getBounds :: Bounds -> Maybe (Coord, Coord)
+getBounds (B bs) = bimap getMin getMax <$> bs
 
 boundingBox :: (Foldable t) => t Coord -> Maybe (Coord, Coord)
-boundingBox = getBounds . foldMap (\c -> B $ Just (c, c))
+boundingBox = getBounds . foldMap (\c -> B $ Just (Min c, Max c))
 
 drawPicture :: Char -> Map Coord Char -> String
 drawPicture bg pixels =
@@ -113,7 +136,7 @@ manhattan :: Coord -> Coord -> Int
 manhattan a b = norm1 (a - b)
 
 norm1 :: Coord -> Int
-norm1 = sum . fmap abs
+norm1 = osum . abs
 
 cardinal :: Coord -> [Coord]
 cardinal c = [above c, left c, right c, below c]
@@ -151,7 +174,7 @@ charToVec = \case
   'v' -> return south
   '<' -> return west
   '>' -> return east
-  x   -> fail $ "Coord.charToVec: invalid char " ++ show x
+  x   -> fail $ "AoC.Coord.charToVec: invalid char " ++ show x
 
 from2dString :: String -> [(Coord, Char)]
 from2dString str =
@@ -182,3 +205,13 @@ diamond n (C y x) =
   , let dy = abs (y - y')
   , x' <- [x-n+dy .. x+n-dy]
   ]
+
+strToArray :: (MonadFail m) => String -> m (UArray Coord Char)
+strToArray str =
+  case lines str of
+    [] -> fail "AoC.Coord.strToArray: empty grid"
+    xs@(h:t) -> do
+      let w = length h
+      case findIndex (\y -> length y /= w) t of
+        Just i  -> fail ("AoC.Coord.strToArray: bad length on line " ++ show (i+2))
+        Nothing -> return $ listArray (0, C (length xs-1) (w-1)) (concat xs)
